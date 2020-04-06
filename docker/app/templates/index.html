@@ -1,0 +1,71 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>{{page_title}}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/static/favicon/site.webmanifest">
+
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="header-info">
+      <img src="/static/images/Static Stack - Light - Terraform.png" alt="HashiCorp" height="500px" width="500px">
+      <h3>{{header_message}}</h3>
+      <h4>{{special_message}}</h4>
+      <button class="btn" href="#tools"><a href="#tools">Tooling</a></button>
+    </div>
+  </header>
+
+  <section id="tools" class="section tooling-sec">
+    <div class="section-header"><h2>Tools Used in This Demo</h2></div>
+    <div class="tooling-container">
+      <div class="tooling-item">
+        <span class="item-logo"><img src="/static/images/Terraform_VerticalLogo_FullColor.png" /></span>
+        <span class="item-name"><a href="https://www.terraform.io/">HashiCorp Terraform</a></span>
+        Infrastructure Provisioning
+      </div>
+      <div class="tooling-item">
+        <span class="item-logo"><img src="/static/images/Packer_VerticalLogo_FullColor.png" /></span>
+        <span class="item-name"><a href="https://packer.io/">HashiCorp Packer</a></span>
+        Immutable Machine Images
+      </div>
+      <div class="tooling-item">
+        <span class="item-logo"><img src="/static/images/Ansible_logo.png" /></span>
+        <span class="item-name"><a href="https://www.ansible.com/">Ansible</a></span>
+        Configuration Automation
+      </div>
+    </div>
+  </section>
+
+  <section class="section info-sec">
+    <div class="section-header" id="info-header" style="color: #fff">System Info</div>
+    <div class="info-container">
+      <ul id="info-box">
+        <li><b>Host Name</b>: {{host_name}}</li>
+        <li><b>Internal IP Address</b>: {{internal_ip_address}}</li>
+        <li><b>External IP Address</b>: {{external_ip_address}}</b></li>
+        <li><b>Host Operating System</b>: {{host_operating_system}}</li>
+        <li><b>Boot Time</b>: {{boot_time}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="bottom" class="section">
+  </section>
+
+</body>
+
+</html>

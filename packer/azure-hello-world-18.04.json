@@ -1,0 +1,64 @@
+{
+    "variables": {
+      "client_id": "{{env `PACKER_ARM_CLIENT_ID`}}",
+      "client_secret": "{{env `PACKER_ARM_CLIENT_SECRET`}}",
+      "tenant_id": "{{env `PACKER_ARM_TENANT_ID`}}",
+      "subscription_id": "{{ env `PACKER_ARM_SUBSCRIPTION_ID` }}",
+      "resource_group_name": "{{ env `PACKER_ARM_RESOURCE_GROUP_NAME` }}",
+      "region": "{{env `PACKER_ARM_REGION`}}",
+      "orgname_tag": "{{env `PACKER_ORGNAME`}}",
+      "service_tag": "{{env `PACKER_SERVICE`}}",
+      "environment_tag": "{{env `PACKER_ENVIRONMENT`}}",
+      "application_tag": "{{env `PACKER_APPLICATION`}}",
+      "bootstrap_tag": "{{env `PACKER_BOOTSTRAP`}}",
+      "never_delete_tag": "{{env `PACKER_NEVER_DELETE`}}",
+      "cost_center_tag": "{{env `PACKER_COST_CENTER`}}",
+      "data_classification_tag": "{{env `PACKER_DATA_CLASSIFICATION`}}",
+      "owner_tag": "{{env `PACKER_OWNER`}}",
+      "git_short_hash": "{{env `PACKER_GIT_SHORT_HASH`}}",
+      "git_branch_name": "{{env `PACKER_GIT_BRANCH_NAME`}}"
+    },
+    "builders": [
+        {
+        "type": "azure-arm",
+        "client_id": "{{user `client_id`}}",
+        "client_secret": "{{user `client_secret`}}",
+        "subscription_id": "{{user `subscription_id`}}",
+        "tenant_id": "{{user `tenant_id`}}",
+        "managed_image_resource_group_name": "{{user `resource_group_name`}}",
+        "managed_image_name": "hello-world-{{user `git_short_hash`}}-{{user `git_branch_name`}}",
+        "os_type": "Linux",
+        "custom_managed_image_name": "ubuntu-1804-base-f247c50-develop",
+        "custom_managed_image_resource_group_name": "{{ user `resource_group_name` }}", 
+        "location": "{{user `region`}}",
+        "vm_size": "Basic_A1",
+        "azure_tags": {
+            "neverDelete": "{{user `never_delete_tag`}}",
+            "isBootstrap": "{{user `bootstrap_tag`}}",
+            "{{user `orgname_tag`}}:service": "{{user `service_tag`}}",
+            "{{user `orgname_tag`}}:environmentName": "{{user `environment_tag`}}",
+            "Name": "{{user `orgname_tag`}}:{{user `service_tag`}}:{{user `environment_tag`}}:{{user `application_tag`}}",
+            "{{user `orgname_tag`}}:application": "{{user `application_tag`}}",
+            "{{user `orgname_tag`}}:costCenter": "{{user `cost_center_tag`}}",
+            "{{user `orgname_tag`}}:dataClassification": "{{user `data_classification_tag`}}",
+            "{{user `orgname_tag`}}:owner": "{{user `owner_tag`}}",
+            "{{user `orgname_tag`}}:taggingVersion": "0.1.0",
+            "{{user `orgname_tag`}}:buildId": "{{user `git_short_hash`}}:{{user `git_branch_name`}}"
+            }
+        }
+    ],
+    "provisioners": [
+      {
+        "type": "ansible",
+        "playbook_file": "../ansible/site.yml"
+      },
+      {
+          "type": "shell",
+          "inline_shebang": "/bin/sh -x",
+          "inline": [
+            "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
+          ],
+          "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+      }
+    ]
+}

@@ -1,0 +1,67 @@
+---
+- name: build hello-world-app on localhost
+  docker_image:
+    build:
+      path: "{{ hello_world_app_path }}/"
+      pull: yes
+      nocache: yes
+    name: hello-world-app
+    tag: latest
+    source: build
+  delegate_to: localhost
+  become: false
+
+- name: remove existing local docker archive directory 
+  file:
+    state: absent
+    path: /tmp/docker/archives
+  delegate_to: localhost
+  become: false
+
+- name: create local docker archive directory
+  file:
+    state: directory
+    path: /tmp/docker/archives
+  delegate_to: localhost
+  become: false
+
+- name: archive hello-world-app image
+  docker_image:
+    name: hello-world-app
+    tag: latest
+    archive_path: /tmp/docker/archives/hello_world_app.tar
+    source: local
+  delegate_to: localhost
+  become: false
+
+- name: remove existing remote docker archive directory 
+  file:
+    state: absent
+    path: /opt/docker/archives
+
+- name: create remote docker archive directory
+  file:
+    state: directory
+    path: /opt/docker/archives
+
+- name: copy hello-world archive to remote host
+  copy:
+    src: /tmp/docker/archives/hello_world_app.tar
+    dest: /opt/docker/archives/hello_world_app.tar
+
+- name: load hello-world image from archive
+  docker_image:
+    name: hello-world-app
+    tag: latest
+    load_path: /opt/docker/archives/hello_world_app.tar
+    source: load
+
+- name: copy hello-world stack file
+  copy:
+    src: "{{ hello_world_app_path }}/docker-stack-deploy.yml"
+    dest: /opt/docker/docker-stack-deploy.yml
+
+- name: ensure no previous stack exists
+  docker_stack:
+    state: absent
+    name: hello-world

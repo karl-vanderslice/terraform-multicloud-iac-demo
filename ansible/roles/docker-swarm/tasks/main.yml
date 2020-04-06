@@ -1,0 +1,14 @@
+---
+- name: install docker python package
+  pip:
+    name:
+      - docker
+      - jsondiff 
+      - pyyaml
+    extra_args: --user
+    
+- name: create docker swarm
+  docker_swarm:
+    state: present
+    default_addr_pool: 172.80.0.0/16
+    advertise_addr: "127.0.0.1:4567"

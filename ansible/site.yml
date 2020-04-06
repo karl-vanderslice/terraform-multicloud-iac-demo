@@ -1,0 +1,12 @@
+---
+- name: installs docker and hello-world app
+  hosts: all
+  become: true
+  gather_facts: true
+  vars: 
+    hello_world_app_path: "/code/infrastructure/solutions/docker"
+
+  roles:
+    - docker
+    - docker-swarm
+    - hello-world-app

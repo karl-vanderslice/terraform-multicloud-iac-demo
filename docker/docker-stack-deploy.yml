@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+    hello-world-app:
+        image: hello-world-app:latest
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2
+                delay: 10s
+            restart_policy:
+                condition: any
+        ports:
+            - 80:5000
+        environment:
+            - PAGE_TITLE=${PAGE_TITLE}
+            - HEADER_MESSAGE=${HEADER_MESSAGE}
+            - SPECIAL_MESSAGE=${SPECIAL_MESSAGE}
+            - HOST_NAME=${HOST_NAME}
+            - INTERNAL_IP_ADDRESS=${INTERNAL_IP_ADDRESS}
+            - EXTERNAL_IP_ADDRESS=${EXTERNAL_IP_ADDRESS}
+            - HOST_OPERATING_SYSTEM=${HOST_OPERATING_SYSTEM}
+            - BOOT_TIME=${BOOT_TIME}
