@@ -1,6 +1,6 @@
 # Hello World App
 
-A simple Hello World using [Terraform](https://github.com/hashicorp/terraform), [Packer](https://github.com/hashicorp/packer), [Ansible](https://github.com/ansible/ansible), and [Docker](https://github.com/docker).
+A simple multi-cloud Hello World using [Terraform](https://github.com/hashicorp/terraform), [Packer](https://github.com/hashicorp/packer), [Ansible](https://github.com/ansible/ansible), and [Docker](https://github.com/docker).
 
 # Building 
 
